@@ -2,6 +2,8 @@ package selenium.tests;
 
 import base.SeleniumSession;
 import base.TestApi;
+import base.TestCaseMeta;
+import base.checks.SoftAssert;
 import base.pages.Cart;
 import base.pages.Home;
 import base.pages.ProductPage;
@@ -23,6 +25,10 @@ import static org.junit.Assert.assertTrue;
 public class CartDiscountTest {
 
     @Test
+    @TestCaseMeta(testCaseId = "TC_01",
+            testCaseName = "Cart amount calculation",
+            descritpion = "Test in which it is determined if item that was added to cart with Gloss finish and custom " +
+                    "frame has properly calculated price.")
     public void whenProductAddedToCartAndDiscountAppliedThenCalculateDiscountProperly() {
 
         TestApi.newScenario("whenProductAddedToCartAndDiscountAppliedThenCalculateDiscountProperly");
@@ -78,6 +84,7 @@ public class CartDiscountTest {
 
             BigDecimal division = orderTotalAfterDiscount.divide(orderTotal, 1, RoundingMode.HALF_DOWN);
             assertEquals(0, division.compareTo(new BigDecimal("0.8")));
+
 
         }
     }
