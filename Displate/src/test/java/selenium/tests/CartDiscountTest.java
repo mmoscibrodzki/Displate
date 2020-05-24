@@ -50,7 +50,7 @@ public class CartDiscountTest {
 
             product.selectFrame(3);
 
-            await().atMost(10, TimeUnit.SECONDS).until(() -> !product.getPrice().equals(priceAfterFinish));
+            await().atMost(20, TimeUnit.SECONDS).until(() -> !product.getPrice().equals(priceAfterFinish));
 
             String priceAfterFinishAndFrame = product.getPrice();
             String displateId = product.getDisplateId();

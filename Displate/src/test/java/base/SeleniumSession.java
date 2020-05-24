@@ -3,7 +3,9 @@ package base;
 import base.config.ConfigurationHolder;
 import base.pages.Home;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -19,18 +21,24 @@ public class SeleniumSession implements AutoCloseable {
 
         switch (webDriverType) {
             case "Firefox":
+                FirefoxBinary firefoxBinary = new FirefoxBinary();
+                if (ConfigurationHolder.configuration().getBoolean("webDriver.headless")) {
+                    firefoxBinary.addCommandLineOptions("--headless");
+                }
                 System.setProperty("webdriver.gecko.driver", "src\\test\\java\\base\\drivers\\geckodriver.exe");
-                this.driver = new FirefoxDriver();
+                FirefoxOptions fo = new FirefoxOptions();
+                fo.setBinary(firefoxBinary);
+                this.driver = new FirefoxDriver(fo);
                 driver.manage().window().maximize();
                 break;
             case "PhantomJs":
                 DesiredCapabilities dCaps = new DesiredCapabilities();
                 dCaps.setJavascriptEnabled(true);
-                dCaps.setCapability("takeScreenshot",false);
+                dCaps.setCapability("takeScreenshot", false);
                 File exeFile = new File("src\\test\\java\\base\\drivers\\phantomjs.exe");
                 PhantomJSDriverService pjds = new PhantomJSDriverService.Builder()
                         .usingPhantomJSExecutable(exeFile).usingAnyFreePort().build();
-                this.driver = new PhantomJSDriver(pjds,dCaps);
+                this.driver = new PhantomJSDriver(pjds, dCaps);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + webDriverType);
