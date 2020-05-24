@@ -2,6 +2,7 @@ package base;
 
 import base.config.ConfigurationHolder;
 import base.pages.Home;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -29,7 +30,7 @@ public class SeleniumSession implements AutoCloseable {
                 FirefoxOptions fo = new FirefoxOptions();
                 fo.setBinary(firefoxBinary);
                 this.driver = new FirefoxDriver(fo);
-                driver.manage().window().maximize();
+                driver.manage().window().setSize(new Dimension(1920,1080));
                 break;
             case "PhantomJs":
                 DesiredCapabilities dCaps = new DesiredCapabilities();
