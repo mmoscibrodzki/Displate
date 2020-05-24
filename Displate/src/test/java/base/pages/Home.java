@@ -7,6 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static org.awaitility.Awaitility.await;
 
 public class Home extends Page {
 
@@ -32,6 +35,7 @@ public class Home extends Page {
     WebElement cookieAlertOkButton;
 
     public ProductPage clickBestsellingList(int itemNumber) {
+        await().atMost(10, TimeUnit.SECONDS).until(()->!bestsellingList.isEmpty());
         bestsellingList.get(itemNumber).click();
         return new ProductPage(driver);
     }
